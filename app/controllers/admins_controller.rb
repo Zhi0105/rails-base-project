@@ -56,7 +56,7 @@ class AdminsController < ApplicationController
 
   def approved_balance_request
     @balance_request = BalanceRequest.find(params[:id])
-    @wallet = Wallet.find_by(trader_id:@balance_request.trader_id)
+    @wallet = Wallet.find_by(trader_id: @balance_request.trader_id)
     if @wallet.nil?
       render :for_approval, notice: 'failed'
     else
