@@ -5,6 +5,7 @@ class AdminsController < ApplicationController
 
   def for_approval
     @traders = Trader.where(is_approved: false)
+    @balance_request = BalanceRequest.where(is_approved: false)
   end
 
   def approved
@@ -12,7 +13,7 @@ class AdminsController < ApplicationController
     @trader.is_approved = true
     if @trader.save
       UserMailer.welcome_email(@trader.email).deliver_now
-      redirect_to admin_dashboard_path, notice: 'success'
+      redirect_to for_approval_path, notice: 'success'
     else
       render :for_approval, notice: 'failed'
     end
@@ -50,6 +51,20 @@ class AdminsController < ApplicationController
       redirect_to admin_show_trader_path(id: @trader.id)
     else
       render :edit_trader
+    end
+  end
+
+  def approved_balance_request
+    @balance_request = BalanceRequest.find(params[:id])
+    @wallet = Wallet.find_by(trader_id: @balance_request.trader_id)
+    if @wallet.nil?
+      render :for_approval, notice: 'failed'
+    else
+      @balance_request.is_approved = true
+      @balance_request.save
+      @wallet.balance = @wallet.balance + @balance_request.amount
+      @wallet.save
+      redirect_to for_approval_path, notice: 'success'
     end
   end
 
