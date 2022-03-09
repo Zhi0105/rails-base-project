@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   authenticated :trader do
     get '/markets', to: "markets#index" , as: "stock_market"
     get '/portfolio/buy_stock/:id' => "portfolios#new", as: "new_portfolio"
-    post '/portfolio/buy_stock' => "portfolios#create", as: "create_portfolio"
+    post '/portfolio/buy_stock/:id' => "portfolios#create", as: "create_portfolio"
     resources :balancerequests, only: [:new, :create]
     root to: 'traders#index', as: "trader_portfolio"
   end

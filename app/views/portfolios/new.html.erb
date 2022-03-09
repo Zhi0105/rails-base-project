@@ -1,6 +1,14 @@
-<div  class="py-2 px-5 mb-4 bg-red-100 text-red-900 text-sm rounded-md border border-red-200" role="alert">
-    <p class="notice text-center"><%= notice %></p>
-</div>
+<% if  @portfolio.errors.any? %>
+    <ul class="validation-message">
+    <%  @portfolio.errors.full_messages.each do |message| %>
+        <div class="bg-red-100 text-red-900 rounded-md border border-red-200 flex flex-col" role="alert">
+            <div class="px-5 text-sm text-center">
+                <li style="list-style-type:none; "><%= message.downcase %></li>
+            </div>
+        </div>
+    <% end %>
+    </ul>
+<% end %>
 <div class="h-screen flex flex-col items-center justify-center bg-gradient-to-bl from-gray-900 via-purple-900 to-violet-600">
 <%= form_for @portfolio, url: create_portfolio_path do |f| %>         
 <div class="flex justify-center">
@@ -16,14 +24,20 @@
                 </div> <br />
                 <%= f.text_field :market_symbol, value: @market.market_symbol, type: :hidden  %>
                 <%= f.text_field :transaction_type, value: 'BUY', type: :hidden %>
+                <%= f.number_field :market_id, value: @market.id, type: :hidden %>
+                <%= f.number_field :revenue, value: @market.curr_price.round(2), type: :hidden %>
+                <%= f.number_field :balance, value: @wallet.balance.round(2), type: :hidden %>
                 <%= f.number_field :unit, min: 1, autocomplete: :off, placeholder: "unit (mininum of 1)", class: "p-2 w-full px-4 rounded" %>
                 <br /> <br />
-                <div class="text-left"><span class="font-bold">Per unit price: </span> <%= number_to_currency(@market.curr_price, precision: 2, unit: "₱") %></div>
-                <div class="text-left"><span class="font-bold">Balance: </span><%= number_to_currency(@wallet.balance, precision: 2, unit: "₱") %></div>
+                <div class="text-left"><span class="font-bold">Per unit price: </span> <%= f.label :sell_amount, "#{number_to_currency(@market.curr_price, precision: 2, unit: "₱")} "%></div>
+                <div class="text-left"><span class="font-bold">Balance: </span><%= f.label :balance, "#{number_to_currency(@wallet.balance, precision: 2, unit: "₱")}" %></div>
                 <br />
                 <div class="actions flex justify-between">  
                 <%= f.submit '✔ OK', data: {confirm: 'Are you sure?'}, class:"w-1/2 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" %>
                 <%= link_to '❌ Exit', stock_market_path,  class:"w-1/2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" %>
+                </div>
+                <div>
+                <p class="notice text-red-900 text-center text-base"><%= notice %></p>
                 </div>
             </p>
         </div>
