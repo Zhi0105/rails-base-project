@@ -5,10 +5,11 @@
         <table class="table-auto border-collapse w-full">
             <thead>
             <tr class="rounded-lg text-white text-sm font-medium text-left bg-gradient-to-bl from-gray-900 via-purple-900 to-violet-600" style="font-size: 0.9674rem">
-                <th class="px-4 py-2">Company</th>
-                <th class="px-4 py-2">Name</th>
-                <th class="px-4 py-2 ">Symbol</th>
-                <th class="px-4 py-2 ">Amount</th>
+                <th class="px-4 py-2">company</th>
+                <th class="px-4 py-2">name</th>
+                <th class="px-4 py-2 ">symbol</th>
+                <th class="px-4 py-2 ">amount</th>
+                <th class="px-4 py-2 ">action</th>
             </tr>
             </thead>
             <tbody class="text-sm font-normal text-gray-700">
@@ -17,7 +18,8 @@
                     <td class="px-4 py-4"><%= image_tag "https://storage.googleapis.com/iex/api/logos/#{market.market_symbol}.png", alt: 'no image available', style: 'width:80px;' %></td> 
                     <td class="px-4 py-4"><%= market.name %></td>    
                     <td class="px-4 py-4"><%= market.market_symbol %></td>    
-                    <td class="px-4 py-4"><%= number_to_currency(market.curr_price  , precision: 2, unit: "₱ ") %></td>    
+                    <td class="px-4 py-4"><%= number_to_currency(market.curr_price  , precision: 2, unit: "₱ ") %></td>
+                    <td class="px-4 py-4 font-bold"><%= link_to 'Buy', new_portfolio_path(market.id) %></td>    
                 </tr>
             <% end %>
             </tbody>

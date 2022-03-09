@@ -1,7 +1,11 @@
 <% if  @balancereq.errors.any? %>
     <ul class="validation-message">
     <%  @balancereq.errors.full_messages.each do |message| %>
-        <li style="list-style-type:none; color:#ff2e46;"><%= message.downcase %></li>
+        <div class="mb-4 bg-red-100 text-red-900 rounded-md border border-red-200 flex flex-col" role="alert">
+            <div class="px-5 text-sm text-center">
+                <li style="list-style-type:none; "><%= message.downcase %></li>
+            </div>
+        </div>
     <% end %>
     </ul>
 <% end %>
