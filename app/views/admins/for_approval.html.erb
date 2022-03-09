@@ -53,3 +53,30 @@
         </table>
     </div>
 <% end %>
+
+<% if @balance_request.empty? %>
+    <p class="italic">None For Balance Request</p>
+
+<% else %>
+    <div class="p-10"> 
+        <table class="min-w-full table-auto">
+            <thead class="bg-gray-800 text-gray-300">
+                <tr>
+                    <th>Trader ID</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% @balance_request.each do |balance_request| %>
+                    <tr class="border-4 border-gray-200">
+                        <td><%=balance_request.trader_id%></td>
+                        <td><%=balance_request.amount%>
+                        <td><%= link_to 'Approve', approved_balance_request_path(id:balance_request.id), method: :put %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+<% end %>

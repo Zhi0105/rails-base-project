@@ -9,13 +9,14 @@ Rails.application.routes.draw do
 
   authenticated :admin do
     get '/admin/dashboard' => "admins#index"
-    get '/admin/approvals' => "admins#for_approval"
+    get '/admin/approvals' => "admins#for_approval", as: "for_approval"
     put '/admin/pending/:id' => "admins#approved", as: "for_pending"
     get '/admin/create-new-trader' => "admins#new_trader"
     post '/admin/create-new-trader' => "admins#create_new_trader", as: "admin_create_trader"
     get '/admin/trader/:id' => "admins#show_trader", as: "admin_show_trader"
     get '/admin/trader/:id/edit' => "admins#edit_trader", as:"admin_edit_trader"
     put '/admin/trader/:id' => "admins#update_trader"
+    put '/admin/balance_request/:id' => 'admins#approved_balance_request', as: "approved_balance_request"
   end
   
   authenticated :trader do
