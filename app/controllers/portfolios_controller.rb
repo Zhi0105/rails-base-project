@@ -7,12 +7,24 @@ class PortfoliosController < ApplicationController
     @portfolio = current_trader.Portfolios.build
   end
 
+  def sell
+    @portfolio = current_trader.Portfolios.find(params[:id])
+    @wallet = current_trader.wallet
+  end
+
   def create
     @market = Market.find(params[:id])
     @wallet = current_trader.wallet
 
     is_market_available = current_trader.Portfolios.find_by(market_symbol: params[:portfolio][:market_symbol])
     portfolio_transaction_logic(is_market_available)
+  end
+
+  def update
+    @portfolio = current_trader.Portfolios.find(params[:id])
+    @wallet = current_trader.wallet
+
+    portfolio_sell_logic
   end
 
   private
@@ -70,5 +82,14 @@ class PortfoliosController < ApplicationController
     else
       redirect_back fallback_location: :trader_portfolio_path, notice: 'Please check if balance is sufficient.'
     end
+  end
+
+  def portfolio_sell_logic
+    @portfolio.unit = (@portfolio.unit - params[:portfolio][:unit].to_f)
+    @portfolio.revenue = @portfolio.revenue - (params[:portfolio][:unit].to_f * params[:portfolio][:revenue].to_f)
+    @wallet.balance = current_trader.wallet.balance + (params[:portfolio][:unit].to_f * params[:portfolio][:revenue].to_f).to_f
+    @wallet.save
+    @portfolio.unit.zero? ? @portfolio.destroy : @portfolio.save
+    redirect_to trader_portfolio_path, notice: 'Stock successfully sold!'
   end
 end

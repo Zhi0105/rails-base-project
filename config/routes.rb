@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     get '/markets', to: "markets#index" , as: "stock_market"
     get '/portfolio/buy_stock/:id' => "portfolios#new", as: "new_portfolio"
     post '/portfolio/buy_stock/:id' => "portfolios#create", as: "create_portfolio"
+    get '/portfolio/sell_stock/:id' => "portfolios#sell", as: "sell_portoflio"
+    patch '/portfolio/sell_stock/:id' => "portfolios#update", as: "update_portfolio"
+    
     resources :balancerequests, only: [:new, :create]
     root to: 'traders#index', as: "trader_portfolio"
   end

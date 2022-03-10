@@ -55,9 +55,9 @@
             <thead>
             <tr class="rounded-lg text-white text-sm font-medium text-left bg-gradient-to-bl from-gray-900 via-purple-900 to-violet-600" style="font-size: 0.9674rem">
                 <th class="px-4 py-2">company</th>
+                <th class="px-4 py-2">name</th>
                 <th class="px-4 py-2 ">symbol</th>
                 <th class="px-4 py-2 ">units</th>
-                
                 <th class="px-4 py-2 ">total revenue</th>
                 <th class="px-4 py-2 ">action</th>
                 
@@ -67,10 +67,11 @@
             <% @portfolios.each do |p| %>
                 <tr class="hover:bg-gray-100  border-gray-200">
                     <td class="px-4 py-4"><%= image_tag "https://storage.googleapis.com/iex/api/logos/#{p.market_symbol}.png", alt: 'no image available', style: 'width:80px;' %></td> 
-                    <td class="px-4 py-4"><%= p.market_symbol %></td>  
+                    <td class="px-4 py-4"><%= get_market_name(p.market_symbol) %></td> 
+                    <td class="px-4 py-4"><%= p.market_symbol %></td> 
                     <td class="px-4 py-4"><%= p.unit %></td>  
                     <td class="px-4 py-4"><%= number_to_currency(p.revenue, precision: 2, unit: "₱ ") %></td>
-                    <td class="px-4 py-4 font-bold"><%= link_to 'Sell', '#' %></td>
+                    <td class="px-4 py-4 font-bold"><%= link_to 'Sell', sell_portoflio_path(p.id) %></td>
                 </tr>
             <% end %>
             </tbody>
