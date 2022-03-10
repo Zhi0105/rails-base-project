@@ -21,6 +21,8 @@ module SeedsServices
       file_data.each do |data|
         Market.create(name: client.company(data).company_name, market_symbol: data, curr_price: client.price(data) * 52.25)
         @logger.info "#{data} market data updated."
+      rescue StandardError
+        nil
       end
       @logger.info 'Fetching data from API completed'
     end
