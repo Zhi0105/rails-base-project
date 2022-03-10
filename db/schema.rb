@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_09_143937) do
+ActiveRecord::Schema.define(version: 2022_03_10_165108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,18 @@ ActiveRecord::Schema.define(version: 2022_03_09_143937) do
     t.index ["reset_password_token"], name: "index_traders_on_reset_password_token", unique: true
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "trader_id", null: false
+    t.integer "portfolio_id"
+    t.string "transaction_type"
+    t.string "market_symbol"
+    t.float "revenue"
+    t.integer "unit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trader_id"], name: "index_transactions_on_trader_id"
+  end
+
   create_table "wallets", force: :cascade do |t|
     t.bigint "trader_id", null: false
     t.float "balance"
@@ -81,5 +93,6 @@ ActiveRecord::Schema.define(version: 2022_03_09_143937) do
 
   add_foreign_key "balance_requests", "traders"
   add_foreign_key "portfolios", "traders"
+  add_foreign_key "transactions", "traders"
   add_foreign_key "wallets", "traders"
 end

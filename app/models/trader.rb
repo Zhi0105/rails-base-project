@@ -2,6 +2,7 @@ class Trader < ApplicationRecord
   has_one :wallet, dependent: :destroy
   has_many :Portfolios, dependent: :destroy
   has_many :BalanceRequests, dependent: :destroy
+  has_many :transactions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable

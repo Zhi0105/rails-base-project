@@ -62,6 +62,7 @@ class PortfoliosController < ApplicationController
     if trader_wallet.balance.positive?
       if portfolio.save
         trader_wallet.save
+        create_transaction_log_buy
         redirect_to trader_portfolio_path, notice: 'Successfully bought stocks'
       else
         render :new
@@ -75,6 +76,7 @@ class PortfoliosController < ApplicationController
     if trader_wallet.balance.positive?
       if portfolio.save
         trader_wallet.save
+        create_transaction_log_buy
         redirect_to trader_portfolio_path, notice: 'Successfully bought stocks'
       else
         render :new
@@ -90,6 +92,29 @@ class PortfoliosController < ApplicationController
     @wallet.balance = current_trader.wallet.balance + (params[:portfolio][:unit].to_f * params[:portfolio][:revenue].to_f).to_f
     @wallet.save
     @portfolio.unit.zero? ? @portfolio.destroy : @portfolio.save
+    create_transaction_log_sell
     redirect_to trader_portfolio_path, notice: 'Stock successfully sold!'
+  end
+
+  def create_transaction_log_buy
+    Transaction.create(
+      trader_id: current_trader.id,
+      portfolio_id: @portfolio.id,
+      transaction_type: params[:portfolio][:transaction_type],
+      market_symbol: params[:portfolio][:market_symbol],
+      unit: params[:portfolio][:unit],
+      revenue: (params[:portfolio][:revenue].to_f * params[:portfolio][:unit].to_f).to_s
+    )
+  end
+
+  def create_transaction_log_sell
+    Transaction.create(
+      trader_id: current_trader.id,
+      portfolio_id: @portfolio.id,
+      transaction_type: params[:portfolio][:transaction_type],
+      market_symbol: params[:portfolio][:market_symbol],
+      unit: params[:portfolio][:unit],
+      revenue: (params[:portfolio][:revenue].to_f * params[:portfolio][:unit].to_f).to_s
+    )
   end
 end
