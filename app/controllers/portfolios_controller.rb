@@ -87,7 +87,7 @@ class PortfoliosController < ApplicationController
   end
 
   def portfolio_sell_logic
-    if @portfolio.unit.to_i == 0
+    if @portfolio.unit.to_i.zero?
       redirect_back fallback_location: :trader_portfolio_path, notice: 'check your unit stock if available.'
     else
       @portfolio.unit = (@portfolio.unit - params[:portfolio][:unit].to_f)
