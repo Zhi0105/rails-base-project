@@ -87,13 +87,17 @@ class PortfoliosController < ApplicationController
   end
 
   def portfolio_sell_logic
-    @portfolio.unit = (@portfolio.unit - params[:portfolio][:unit].to_f)
-    @portfolio.revenue = @portfolio.revenue - (params[:portfolio][:unit].to_f * params[:portfolio][:revenue].to_f)
-    @wallet.balance = current_trader.wallet.balance + (params[:portfolio][:unit].to_f * params[:portfolio][:revenue].to_f).to_f
-    @wallet.save
-    @portfolio.unit.zero? ? @portfolio.destroy : @portfolio.save
-    create_transaction_log_sell
-    redirect_to trader_portfolio_path, notice: 'Stock successfully sold!'
+    if @portfolio.unit.to_i.zero?
+      redirect_back fallback_location: :trader_portfolio_path, notice: 'check your unit stock if available.'
+    else
+      @portfolio.unit = (@portfolio.unit - params[:portfolio][:unit].to_f)
+      @portfolio.revenue = @portfolio.revenue - (params[:portfolio][:unit].to_f * params[:portfolio][:revenue].to_f)
+      @wallet.balance = current_trader.wallet.balance + (params[:portfolio][:unit].to_f * params[:portfolio][:old_revenue].to_f).to_f
+      @wallet.save
+      @portfolio.revenue.negative? ? @portfolio.destroy : @portfolio.save
+      create_transaction_log_sell
+      redirect_to trader_portfolio_path, notice: 'Stock successfully sold!'
+    end
   end
 
   def create_transaction_log_buy
