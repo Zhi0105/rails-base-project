@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   authenticated :admin do
     get '/admin/dashboard' => "admins#index"
     get '/admin/approvals' => "admins#for_approval", as: "for_approval"
+    get '/admin/transactions' => "admins#transaction", as: "traders_transactions"
     put '/admin/pending/:id' => "admins#approved", as: "for_pending"
     get '/admin/create-new-trader' => "admins#new_trader"
     post '/admin/create-new-trader' => "admins#create_new_trader", as: "admin_create_trader"
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
     patch '/portfolio/sell_stock/:id' => "portfolios#update", as: "update_portfolio"
     
     resources :balancerequests, only: [:new, :create]
+    resources :transactions, only: [:index]    
     root to: 'traders#index', as: "trader_portfolio"
   end
     root to: 'home#index'

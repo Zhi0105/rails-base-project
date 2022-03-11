@@ -3,6 +3,10 @@ class AdminsController < ApplicationController
     @traders = Trader.where(is_approved: true)
   end
 
+  def transaction
+    @transactions = Transaction.all.order('created_at ASC')
+  end
+
   def for_approval
     @traders = Trader.where(is_approved: false)
     @balance_request = BalanceRequest.where(is_approved: false)
