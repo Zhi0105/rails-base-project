@@ -59,7 +59,11 @@
                 <th class="px-4 py-2">name</th>
                 <th class="px-4 py-2 ">symbol</th>
                 <th class="px-4 py-2 ">units</th>
-                <th class="px-4 py-2 ">Value</th>
+                <th class="px-4 py-2 ">Bought Value/unit</th>
+                <th class="px-4 py-2 ">Sell Value/unit</th>
+                <th class="px-4 py-2 ">Total Bought Value</th>
+                <th class="px-4 py-2 ">Total Sell Value</th>
+                <th class="px-4 py-2 ">PnL</th>
                 <th class="px-4 py-2 ">action</th>
                 
             </tr>
@@ -71,7 +75,11 @@
                     <td class="px-4 py-4"><%= get_market_name(p.market_symbol) %></td> 
                     <td class="px-4 py-4"><%= p.market_symbol %></td> 
                     <td class="px-4 py-4"><%= p.unit %></td>  
-                    <td class="px-4 py-4">₱<%= get_current_value(p) %></td>
+                    <td class="px-4 py-4">₱<%= p.hist_price %></td>   
+                    <td class="px-4 py-4">₱<%= (get_current_value(p)/p.unit).round(2) %></td>
+                    <td class="px-4 py-4">₱<%= (p.hist_price * p.unit).round(2) %></td>
+                    <td class="px-4 py-4">₱<%= get_current_value(p).round(2) %></td>
+                    <td class="px-4 py-4">₱<%= (get_current_value(p) - (p.hist_price * p.unit)).round(2) %></td>
                     <td class="px-4 py-4 font-bold"><%= link_to 'Sell', sell_portoflio_path(p.id) %></td>
                 </tr>
             <% end %>

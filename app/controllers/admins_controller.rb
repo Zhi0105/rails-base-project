@@ -42,6 +42,7 @@ class AdminsController < ApplicationController
 
   def show_trader
     @trader = Trader.find(params[:id])
+    @transactions = @trader.transactions
   end
 
   def edit_trader
