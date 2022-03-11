@@ -45,7 +45,7 @@ class PortfoliosController < ApplicationController
   def portfolio_buy_logic(is_market_available)
     if is_market_available.nil?
       @portfolio = current_trader.Portfolios.build(portfolio_params)
-      
+
       @trader_wallet.balance = current_trader.wallet.balance - (params[:portfolio][:hist_price].to_f.round(2) * params[:portfolio][:unit].to_f.round(2))
       @portfolio.save if @trader_wallet.balance.positive?
       portfolio_buy_logic_update(@trader_wallet, @portfolio)

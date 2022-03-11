@@ -4,7 +4,7 @@ class TradersController < ApplicationController
   def index
     @trader = Wallet.find_by(trader_id: current_trader.id)
     @portfolios = current_trader.Portfolios.all.order('market_symbol ASC')
-    
+
     @profit_and_loss = 0
     current_portfolio_price = 0
     history_price = 0
