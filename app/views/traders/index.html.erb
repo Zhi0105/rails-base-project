@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center px-24">
-                    <span class="text-3xl">₱<%= @profit_and_loss %></span><br /><br />
+                    <span class="text-3xl">₱ <%= number_to_currency(@profit_and_loss, precision: 2, unit: "") %></span><br /><br />
                     <p class="text-base font-bold">Profit and loss</p>
                 </div>
             </div>
@@ -75,11 +75,11 @@
                     <td class="px-4 py-4"><%= get_market_name(p.market_symbol) %></td> 
                     <td class="px-4 py-4"><%= p.market_symbol %></td> 
                     <td class="px-4 py-4"><%= p.unit %></td>  
-                    <td class="px-4 py-4">₱<%= p.hist_price %></td>   
-                    <td class="px-4 py-4">₱<%= (get_current_value(p)/p.unit).round(2) %></td>
-                    <td class="px-4 py-4">₱<%= (p.hist_price * p.unit).round(2) %></td>
-                    <td class="px-4 py-4">₱<%= get_current_value(p).round(2) %></td>
-                    <td class="px-4 py-4">₱<%= (get_current_value(p) - (p.hist_price * p.unit)).round(2) %></td>
+                    <td class="px-4 py-4"><%= number_to_currency(p.hist_price, precision: 2, unit: "₱") %></td>   
+                    <td class="px-4 py-4"><%= number_to_currency((get_current_value(p)/p.unit).round(2), precision: 2, unit: "₱") %></td>
+                    <td class="px-4 py-4"><%=  number_to_currency((p.hist_price * p.unit).round(2), precision: 2, unit: "₱") %></td>
+                    <td class="px-4 py-4"><%= number_to_currency(get_current_value(p).round(2), precision: 2, unit: "₱") %></td>
+                    <td class="px-4 py-4">₱<%= number_to_currency((get_current_value(p) - (p.hist_price * p.unit)).round(2), precision: 2, unit: "") %></td>
                     <td class="px-4 py-4 font-bold"><%= link_to 'Sell', sell_portoflio_path(p.id) %></td>
                 </tr>
             <% end %>

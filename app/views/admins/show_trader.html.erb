@@ -1,9 +1,9 @@
 <div class="flex flex-col justify-center items-center mt-5 mb-5">
     <div class="bg-blue-200 w-1/3 p-5 rounded-xl mb-5">
-        <p class="lg:text-xl"> <span class="font-bold">UserName: </span><%=@trader.username%></p>
+        <p class="lg:text-xl"> <span class="font-bold">Username: </span><%=@trader.username%></p>
         <p class="lg:text-xl"> <span class="font-bold">Email: </span><%=@trader.email%></p>
-        <p class="lg:text-xl"> <span class="font-bold">FullName: </span><%=@trader.fullname%></p>
-        <p class="lg:text-xl"> <span class="font-bold">Balance: </span>₱<%=@trader.wallet.balance.round(2)%></p>
+        <p class="lg:text-xl"> <span class="font-bold">Fullname: </span><%=@trader.fullname%></p>
+        <p class="lg:text-xl"> <span class="font-bold">Balance: </span><%= number_to_currency(@trader.wallet.balance.round(2), precision: 2, unit: "₱ ") %></p>
         <%= link_to 'edit', admin_edit_trader_path(id:@trader.id), class:"text-blue-500 font-bold"%>
     </div>
     <%= link_to '--Back', '/admin/dashboard', class:"mb-5 italic" %>
@@ -26,7 +26,7 @@
             <% @transactions.each do |t| %>
                 <tr class="hover:bg-gray-100  border-gray-200">
                     <td class="px-4 py-4"><%= t.market_symbol %></td> 
-                    <td class="px-4 py-4">₱<%= t.revenue %></td> 
+                    <td class="px-4 py-4"><%= number_to_currency(t.revenue, precision: 2, unit: "₱ ") %></td> 
                     <td class="px-4 py-4"><%= t.unit %></td> 
                     <td class="px-4 py-4"><%= t.transaction_type %></td> 
                     <td class="px-4 py-4"><%= t.created_at.strftime('%a %d %b %Y') %></td> 
