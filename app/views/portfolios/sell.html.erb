@@ -26,8 +26,7 @@
                 <%= f.text_field :transaction_type, value: 'SELL', type: :hidden %>
                 <%= f.number_field :market_id, value: @portfolio.id, type: :hidden %>
                 <%= f.number_field :balance, value: @wallet.balance.round(2), type: :hidden %>
-                <%= f.number_field :old_revenue, value: "#{@portfolio.revenue / @portfolio.unit}", type: :hidden %>
-                <%= f.number_field :revenue, value: "#{get_market_price(@portfolio.market_symbol)}", type: :hidden %>
+                <%= f.number_field :hist_price, value: @market.curr_price, type: :hidden %>
                 <%= f.number_field :unit, min: 1, autocomplete: :off, placeholder: "unit (mininum of 1)", class: "p-2 w-full px-4 rounded" %>
                 <br /> <br />
                 <div class="text-left"><span class="font-bold">Per unit price: </span> <%= f.label :sell_amount, "#{number_to_currency(get_market_price(@portfolio.market_symbol), precision: 2, unit: "₱")} "%></div>
@@ -40,11 +39,10 @@
                 <div>
                 <p class="notice text-red-900 text-center text-base"><%= notice %></p>
                 </div>
+                
             </p>
         </div>
     </div>
 </div>
 <% end %>
 </div>
-
-

@@ -25,7 +25,7 @@
                 <%= f.text_field :market_symbol, value: @market.market_symbol, type: :hidden  %>
                 <%= f.text_field :transaction_type, value: 'BUY', type: :hidden %>
                 <%= f.number_field :market_id, value: @market.id, type: :hidden %>
-                <%= f.number_field :revenue, value: @market.curr_price.round(2), type: :hidden %>
+                <%= f.number_field :hist_price, value: @market.curr_price.round(2), type: :hidden %>
                 <%= f.number_field :balance, value: @wallet.balance.round(2), type: :hidden %>
                 <%= f.number_field :unit, min: 1, autocomplete: :off, placeholder: "unit (mininum of 1)", class: "p-2 w-full px-4 rounded" %>
                 <br /> <br />
@@ -45,5 +45,3 @@
 </div>
 <% end %>
 </div>
-
-

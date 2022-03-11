@@ -42,8 +42,8 @@
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center px-24">
-                    <span class="text-3xl"><%=  number_to_currency(@total, precision: 2, unit: "₱") %></span><br /><br />
-                    <p class="text-base font-bold">TOTAL REVENUE</p>
+                    <span class="text-3xl">₱<%= @profit_and_loss %></span><br /><br />
+                    <p class="text-base font-bold">Profit and loss</p>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <th class="px-4 py-2">name</th>
                 <th class="px-4 py-2 ">symbol</th>
                 <th class="px-4 py-2 ">units</th>
-                <th class="px-4 py-2 ">total revenue</th>
+                <th class="px-4 py-2 ">Value</th>
                 <th class="px-4 py-2 ">action</th>
                 
             </tr>
@@ -71,7 +71,7 @@
                     <td class="px-4 py-4"><%= get_market_name(p.market_symbol) %></td> 
                     <td class="px-4 py-4"><%= p.market_symbol %></td> 
                     <td class="px-4 py-4"><%= p.unit %></td>  
-                    <td class="px-4 py-4"><%= number_to_currency(p.revenue, precision: 2, unit: "₱ ") %></td>
+                    <td class="px-4 py-4">₱<%= get_current_value(p) %></td>
                     <td class="px-4 py-4 font-bold"><%= link_to 'Sell', sell_portoflio_path(p.id) %></td>
                 </tr>
             <% end %>
@@ -80,4 +80,3 @@
     </div>
 </div>
 </div>
-
